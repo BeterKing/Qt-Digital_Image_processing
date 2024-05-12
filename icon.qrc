@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/image">
+        <file>icons/add.png</file>
+        <file>icons/close.png</file>
+        <file>icons/download.png</file>
+        <file>icons/folder.png</file>
+        <file>icons/history.png</file>
+        <file>icons/pic.png</file>
+        <file>icons/rising.png</file>
+        <file>icons/save.png</file>
+        <file>icons/save-fill.png</file>
+        <file>icons/upload.png</file>
+        <file>icons/video.png</file>
+        <file>icons/viewlarger.png</file>
+        <file>icons/usercenter.png</file>
+        <file>icons/4-Code Sand.png</file>
+        <file>icons/back.png</file>
+        <file>icons/logo.png</file>
+        <file>icons/th.jpg</file>
+        <file>icons/camera.png</file>
+        <file>icons/reload.png</file>
+    </qresource>
+</RCC>
