@@ -93,5 +93,7 @@ private slots:
     void on_pushButton_video_2_clicked();
     void do_image_capture(int id, const QImage &img);
     void on_pushButton_toocr_clicked();
+    void on_action_Save_triggered();
+    void SaveImg(Mat img);
 };
 #endif // MAINWINDOW_H

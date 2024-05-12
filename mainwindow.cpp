@@ -36,7 +36,7 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_pushButton_clicked() //文字识别
 {
     if(ui->stackedWidget_2->currentIndex()!=0)
     {
@@ -47,7 +47,7 @@ void MainWindow::on_pushButton_clicked()
 }
 
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_pushButton_2_clicked() //图像处理
 {
     if(ui->stackedWidget_2->currentIndex()!=1)
     {
@@ -58,13 +58,13 @@ void MainWindow::on_pushButton_2_clicked()
 }
 
 
-void MainWindow::on_pushButton_3_clicked()
+void MainWindow::on_pushButton_3_clicked() //文档扫描
 {
     ui->stackedWidget->setCurrentIndex(2);
     ui->stackedWidget_2->setCurrentIndex(2);
 }
 
-void MainWindow::on_pushButton_reload_clicked()
+void MainWindow::on_pushButton_reload_clicked() //重新加载摄像头列表
 {
     camerasList = QMediaDevices::videoInputs();
     ui->comboBox->clear(); //清除列表
@@ -79,7 +79,7 @@ void MainWindow::on_pushButton_reload_clicked()
     }
 }
 
-void MainWindow::on_pushButton_video_clicked()
+void MainWindow::on_pushButton_video_clicked()  //打开摄像头
 {
     m_camera.reset(new QCamera(tempDevice));
 
@@ -93,7 +93,7 @@ void MainWindow::on_pushButton_video_clicked()
 
 }
 
-void MainWindow::on_comboBox_activated(int index)
+void MainWindow::on_comboBox_activated(int index)  //选择摄像头
 {
     tempDevice = camerasList.at(index);
     m_camera.reset(new QCamera(tempDevice));
@@ -104,18 +104,18 @@ void MainWindow::on_comboBox_activated(int index)
     if(camerastatus) m_camera->start();
 }
 
-void MainWindow::on_pushButton_video_2_clicked()
+void MainWindow::on_pushButton_video_2_clicked()  //拍照
 {
     imageCapture->capture();
 }
 
-void MainWindow::do_image_capture(int id, const QImage &img)
+void MainWindow::do_image_capture(int id, const QImage &img)  //触发截图事件
 {
     captureImg = cvQImage2Mat(img);
     ui->label_5->setPixmap(QPixmap::fromImage(img).scaled(ui->label_5->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation));
 }
 
-void MainWindow::on_pushButton_toocr_clicked()
+void MainWindow::on_pushButton_toocr_clicked()  //文档扫描
 {
     Mat imgThre = scanner.preProcessing(captureImg);
     initalPoints = scanner.getContours(imgThre,captureImg);
@@ -136,20 +136,21 @@ void MainWindow::on_pushButton_toocr_clicked()
         imgWarp = Mat(w, h, CV_8UC3, Scalar(255, 255, 255));
         imgCrops = Mat(w, h, CV_8UC3, Scalar(255, 255, 255));
     }
+    captureImg = imgCrops;
     ui->label_5->setPixmap(QPixmap::fromImage(cvMat2QImage(imgCrops).scaled(ui->label_5->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation)));
 }
 
-void MainWindow::on_pushButton_choose_clicked()
+void MainWindow::on_pushButton_choose_clicked() //选择图像
 {
     openImg(ui->label,true);
 }
 
-void MainWindow::on_pushButton_choose1_clicked()
+void MainWindow::on_pushButton_choose1_clicked()  //选择图像
 {
     openImg(ui->label_2,false);
 }
 
-void MainWindow::on_pushButton_ocr_clicked()
+void MainWindow::on_pushButton_ocr_clicked()  //文字识别
 {
     QString outText;
 
@@ -191,7 +192,7 @@ void MainWindow::on_pushButton_ocr_clicked()
     qDebug() << outText;
 }
 
-void MainWindow::on_action_Open_triggered()
+void MainWindow::on_action_Open_triggered() //打开文件
 {
     int index = ui->stackedWidget_2->currentIndex();
     switch (index) {
@@ -202,6 +203,41 @@ void MainWindow::on_action_Open_triggered()
         openImg(ui->label_2, false);
         break;
     }
+}
+
+void MainWindow::on_action_Save_triggered() //保存文件
+{
+    int index = ui->stackedWidget_2->currentIndex();
+    QPixmap pixmap;
+    QImage img;
+    switch (index) {
+    case 1:
+        pixmap = ui->label_3->pixmap();
+        img = pixmap.toImage();
+        SaveImg(cvQImage2Mat(img));
+        break;
+    case 2:
+        SaveImg(captureImg);
+        break;
+    }
+}
+
+void MainWindow::SaveImg(Mat img)
+{
+    QString curDir=QDir::currentPath();//选择文件
+    QString filename=QFileDialog::getSaveFileName(this,"save Image",curDir,
+                                                    "Images (*.png *.bmp *.jpg *.tif *.GIF )");
+    if(filename.isEmpty()||img.empty())
+    {
+            qDebug() << "Save";
+        return;
+    }
+    std::string save_path = filename.toLocal8Bit().toStdString();
+
+    //save_path+=".jpg";//std::vector<int> compression_params;
+    //compression_params.push_back(IMWRITE_JPEG_QUALITY);
+    //compression_params.push_back(100);
+    imwrite(save_path,img);//保存图片
 }
 
 

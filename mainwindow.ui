@@ -530,30 +530,12 @@ border: 1px solid black;</string>
     <property name="title">
      <string>      文件      </string>
     </property>
-    <widget class="QMenu" name="menuSave_as">
-     <property name="title">
-      <string>Save as</string>
-     </property>
-     <addaction name="actionJPG"/>
-     <addaction name="actionPNG"/>
-     <addaction name="actionTIFF"/>
-    </widget>
     <addaction name="action_Open"/>
     <addaction name="action_Save"/>
-    <addaction name="menuSave_as"/>
     <addaction name="separator"/>
     <addaction name="action_Close"/>
    </widget>
-   <widget class="QMenu" name="menu_type">
-    <property name="title">
-     <string>      类型      </string>
-    </property>
-    <addaction name="action_Photo"/>
-    <addaction name="action_Picture"/>
-    <addaction name="action_Video"/>
-   </widget>
    <addaction name="menu_file"/>
-   <addaction name="menu_type"/>
   </widget>
   <action name="action_Open">
    <property name="icon">
@@ -625,21 +607,6 @@ border: 1px solid black;</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
-   </property>
-  </action>
-  <action name="actionJPG">
-   <property name="text">
-    <string>JPEG</string>
-   </property>
-  </action>
-  <action name="actionPNG">
-   <property name="text">
-    <string>PNG</string>
-   </property>
-  </action>
-  <action name="actionTIFF">
-   <property name="text">
-    <string>TIFF</string>
    </property>
   </action>
  </widget>
