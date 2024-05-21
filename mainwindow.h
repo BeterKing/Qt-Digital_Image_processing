@@ -95,5 +95,8 @@ private slots:
     void on_pushButton_toocr_clicked();
     void on_action_Save_triggered();
     void SaveImg(Mat img);
+    void on_actionaction_cut_triggered();
+    void onCompleteCature(QPixmap captureImage);
+    void onClose();
 };
 #endif // MAINWINDOW_H

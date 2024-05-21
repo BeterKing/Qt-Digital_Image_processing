@@ -113,7 +113,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="page_photo">
      <widget class="QGroupBox" name="groupBox">
@@ -506,8 +506,8 @@ border: 1px solid black;</string>
    </attribute>
    <addaction name="action_Open"/>
    <addaction name="action_Save"/>
+   <addaction name="actionaction_cut"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
@@ -533,7 +533,6 @@ border: 1px solid black;</string>
     <addaction name="action_Open"/>
     <addaction name="action_Save"/>
     <addaction name="separator"/>
-    <addaction name="action_Close"/>
    </widget>
    <addaction name="menu_file"/>
   </widget>
@@ -561,52 +560,19 @@ border: 1px solid black;</string>
     <bool>true</bool>
    </property>
   </action>
-  <action name="action_Picture">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/icons_image/icons/pic.png</normaloff>:/icons_image/icons/pic.png</iconset>
+  <action name="actionaction_cut">
+   <property name="checkable">
+    <bool>false</bool>
    </property>
-   <property name="text">
-    <string>Picture</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>true</bool>
-   </property>
-  </action>
-  <action name="action_Close">
    <property name="icon">
     <iconset resource="icon.qrc">
-     <normaloff>:/image/icons/close.png</normaloff>:/image/icons/close.png</iconset>
+     <normaloff>:/image/icons/screenshot.png</normaloff>:/image/icons/screenshot.png</iconset>
    </property>
    <property name="text">
-    <string>Close</string>
+    <string>Screenshot</string>
    </property>
-   <property name="iconVisibleInMenu">
-    <bool>true</bool>
-   </property>
-  </action>
-  <action name="action_Photo">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/icons_image/icons/usercenter.png</normaloff>:/icons_image/icons/usercenter.png</iconset>
-   </property>
-   <property name="text">
-    <string>Photo</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>true</bool>
-   </property>
-  </action>
-  <action name="action_Video">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/icons_image/icons/video.png</normaloff>:/icons_image/icons/video.png</iconset>
-   </property>
-   <property name="text">
-    <string>Video</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>true</bool>
+   <property name="menuRole">
+    <enum>QAction::TextHeuristicRole</enum>
    </property>
   </action>
  </widget>
@@ -622,70 +588,5 @@ border: 1px solid black;</string>
  <resources>
   <include location="icon.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>action_Close</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>270</x>
-     <y>190</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>action_Photo</sender>
-   <signal>triggered()</signal>
-   <receiver>pushButton</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>40</x>
-     <y>108</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>action_Picture</sender>
-   <signal>triggered()</signal>
-   <receiver>pushButton_2</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>40</x>
-     <y>188</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>action_Video</sender>
-   <signal>triggered()</signal>
-   <receiver>pushButton_3</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>40</x>
-     <y>268</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

@@ -19,5 +19,6 @@
         <file>icons/th.jpg</file>
         <file>icons/camera.png</file>
         <file>icons/reload.png</file>
+        <file>icons/screenshot.png</file>
     </qresource>
 </RCC>

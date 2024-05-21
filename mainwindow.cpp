@@ -1,8 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "imgcrop.h"
+#include "capturescreen.h"
 #include <opencv2/opencv.hpp>
 #include <tesseract/baseapi.h>
+#include <QThread>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -40,6 +42,7 @@ void MainWindow::on_pushButton_clicked() //文字识别
 {
     if(ui->stackedWidget_2->currentIndex()!=0)
     {
+        m_camera->stop();
         ui->stackedWidget->setCurrentIndex(0);
         ui->stackedWidget_2->setCurrentIndex(0);
         // if(!imgContainer.isEmpty()) imgContainer.cleanDealed();
@@ -51,6 +54,7 @@ void MainWindow::on_pushButton_2_clicked() //图像处理
 {
     if(ui->stackedWidget_2->currentIndex()!=1)
     {
+        m_camera->stop();
         ui->stackedWidget->setCurrentIndex(1);
         ui->stackedWidget_2->setCurrentIndex(1);
         // if(!imgContainer.isEmpty()) imgContainer.cleanDealed();
@@ -162,15 +166,9 @@ void MainWindow::on_pushButton_ocr_clicked()  //文字识别
 
     Mat gray = Tesseract.grayImages(cvImg);
 
-    // cv::imshow("imga", gray);
-
     Mat dilation = Tesseract.preprocess(gray);
 
-    // cv::imshow("img", dilation);
-
     vector<RotatedRect> rects = Tesseract.findTextRegion(dilation);
-
-    qDebug() << rects.size();
 
     for(int i = rects.size()-1; i>=0 ; i--)
     {
@@ -180,7 +178,6 @@ void MainWindow::on_pushButton_ocr_clicked()  //文字识别
         vector<Point2f> docPioints = Tesseract.reorder(P);
         Mat imgCrop = Tesseract.Croping(docPioints,cvImg);
 
-        cv::imshow("123",imgCrop);
         ocr->SetImage(imgCrop.data, imgCrop.cols, imgCrop.rows, 3, imgCrop.step);
 
         ocr->Recognize(0);
@@ -189,7 +186,40 @@ void MainWindow::on_pushButton_ocr_clicked()  //文字识别
     }
 
     ui->plainTextEdit->setPlainText(outText);
-    qDebug() << outText;
+}
+
+void MainWindow::on_actionaction_cut_triggered()
+{
+    this->hide();
+    QThread::sleep(1);
+    CaptureScreen* captureHelper = new CaptureScreen();
+    connect(captureHelper, SIGNAL(signalCompleteCature(QPixmap)), this, SLOT(onCompleteCature(QPixmap)));
+    connect(captureHelper, SIGNAL(signalClose()), this, SLOT(onClose()));
+    captureHelper->show();
+}
+
+void MainWindow::onClose()
+{
+    this->show();
+}
+
+void MainWindow::onCompleteCature(QPixmap captureImage)
+{
+    int index = ui->stackedWidget_2->currentIndex();
+    this->show();
+    switch (index) {
+    case 0:
+        ui->label->setAlignment(Qt::AlignCenter);
+        ui->label->setPixmap(captureImage.scaled(ui->label->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation));
+        cvImg = cvQImage2Mat(captureImage.toImage());
+        imgContainer.push(cvImg);
+        break;
+    case 1:
+        ui->label_2->setAlignment(Qt::AlignCenter);
+        ui->label_2->setPixmap(captureImage.scaled(ui->label_2->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation));
+        imgContainer_1.push(cvQImage2Mat(captureImage.toImage()));
+        break;
+    }
 }
 
 void MainWindow::on_action_Open_triggered() //打开文件
